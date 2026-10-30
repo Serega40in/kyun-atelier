@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ателье КЮН — знак для вышивки</title>
+  <meta name="description" content="Минимальный знак КЮН с расходящимися лучами для машинной вышивки на футболке." />
+  <meta name="theme-color" content="#171814" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-mark" id="headerMark"></div>
+        <div>
+          <div class="brand-title">Ателье КЮН</div>
+          <div class="brand-sub">Знак для машинной вышивки</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn" id="btnUndo" title="Отменить">↺</button>
+        <button type="button" class="btn" id="btnRedo" title="Повторить">↻</button>
+        <button type="button" class="btn" id="btnSvg">SVG</button>
+        <button type="button" class="btn btn-primary" id="btnPng">PNG</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel panel-left">
+        <section class="block">
+          <h2>Пресеты</h2>
+          <div class="presets" id="presets"></div>
+        </section>
+
+        <section class="block">
+          <h2>Сторона</h2>
+          <div class="seg" id="sideSeg">
+            <button type="button" data-side="front" class="on">Спереди</button>
+            <button type="button" data-side="back">Сзади</button>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>Место</h2>
+          <div class="chips" id="anchors"></div>
+        </section>
+
+        <section class="block">
+          <h2>Ткань</h2>
+          <div class="swatches" id="shirts"></div>
+          <label class="file-btn">
+            <input type="file" id="photoInput" accept="image/*" hidden />
+            Загрузить фото футболки
+          </label>
+          <button type="button" class="btn btn-ghost full" id="btnClearPhoto" hidden>Убрать фото</button>
+        </section>
+
+        <section class="block">
+          <h2>Размер</h2>
+          <label class="field">
+            <span>Ширина, см <b id="sizeLabel">5.0</b></span>
+            <input type="range" id="widthCm" min="3" max="26" step="0.1" value="5" />
+          </label>
+        </section>
+
+        <p class="footnote">КЮН — больше, чем одежда. Это движение.</p>
+      </aside>
+
+      <section class="stage-wrap">
+        <div class="stage-bar">
+          <div class="seg" id="modeSeg">
+            <button type="button" data-mode="garment" class="on">На теле</button>
+            <button type="button" data-mode="detail">Знак крупно</button>
+          </div>
+          <div class="seg" id="compSeg">
+            <button type="button" data-comp="crown" class="on">Корона</button>
+            <button type="button" data-comp="halo">Знак</button>
+            <button type="button" data-comp="sun">Солнце</button>
+          </div>
+        </div>
+        <div class="stage" id="stage">
+          <div class="stage-box" id="stageBox"></div>
+        </div>
+        <p class="stage-caption" id="caption">Спереди · Левая грудь · 5.0 см</p>
+      </section>
+
+      <aside class="panel panel-right">
+        <section class="block">
+          <h2>Надпись</h2>
+          <input class="text-input" id="word" value="КЮН" maxlength="8" spellcheck="false" />
+        </section>
+
+        <section class="block">
+          <h2>Буквы</h2>
+          <label class="field">
+            <span>Толщина <b id="weightLabel">2.4 мм</b></span>
+            <input type="range" id="weight" min="10" max="24" step="0.5" value="16" />
+          </label>
+          <label class="field">
+            <span>Трекинг <b id="trackingLabel">2</b></span>
+            <input type="range" id="tracking" min="-6" max="24" step="1" value="2" />
+          </label>
+          <label class="check">
+            <input type="checkbox" id="softCaps" />
+            Мягкие торцы
+          </label>
+        </section>
+
+        <section class="block">
+          <h2>Лучи</h2>
+          <label class="field">
+            <span>Количество <b id="rayCountLabel">11</b></span>
+            <input type="range" id="rayCount" min="5" max="22" step="1" value="11" />
+          </label>
+          <label class="field">
+            <span>Длина <b id="rayLengthLabel">1.0</b></span>
+            <input type="range" id="rayLength" min="0.4" max="1.6" step="0.05" value="1" />
+          </label>
+          <label class="field">
+            <span>Разброс короны <b id="raySpreadLabel">112°</b></span>
+            <input type="range" id="raySpread" min="60" max="160" step="2" value="112" />
+          </label>
+          <label class="field">
+            <span>Спонтанность <b id="irregLabel">0.46</b></span>
+            <input type="range" id="irregularity" min="0" max="1" step="0.02" value="0.46" />
+          </label>
+          <label class="field">
+            <span>Толщина лучей <b id="rayThickLabel">1.5 мм</b></span>
+            <input type="range" id="rayThickness" min="4" max="16" step="0.5" value="9.5" />
+          </label>
+          <label class="field">
+            <span>Остриё <b id="taperLabel">0.28</b></span>
+            <input type="range" id="taper" min="0" max="1" step="0.02" value="0.28" />
+          </label>
+          <label class="check">
+            <input type="checkbox" id="altRays" />
+            Чередовать нити
+          </label>
+          <label class="check">
+            <input type="checkbox" id="showGem" />
+            Камень в Ю
+          </label>
+        </section>
+
+        <section class="block">
+          <h2>Нити</h2>
+          <div class="thread-row">
+            <label>Буквы <input type="color" id="letterThread" value="#C4A35A" /></label>
+            <label>Лучи <input type="color" id="rayThread" value="#C4A35A" /></label>
+          </div>
+          <div class="thread-row">
+            <label>Вторые <input type="color" id="altThread" value="#F4F1EA" /></label>
+            <label>Камень <input type="color" id="gemThread" value="#1F7A52" /></label>
+          </div>
+          <div class="swatches compact" id="threads"></div>
+        </section>
+
+        <section class="block">
+          <h2>Стежок</h2>
+          <div class="notes" id="notes"></div>
+          <button type="button" class="btn full" id="btnFit">Подогнать под стежок</button>
+          <label class="check">
+            <input type="checkbox" id="guides" />
+            Направляющие
+          </label>
+          <label class="check">
+            <input type="checkbox" id="stitch" checked />
+            Блик нити
+          </label>
+        </section>
+      </aside>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
